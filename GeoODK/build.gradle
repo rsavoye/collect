@@ -1,20 +1,67 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion "21.1.2"
+    compileSdkVersion 27
+    buildToolsVersion "27.0.3"
+    useLibrary 'org.apache.http.legacy'
+
+    lintOptions {
+       checkReleaseBuilds false
+       // Or, if you prefer, you can continue to check for errors in release builds,
+       // but continue the build even when errors are found:
+       abortOnError false
+    }
 
     defaultConfig {
         applicationId "com.geoodk.collect.android"
-        minSdkVersion 9
-        targetSdkVersion 9
-        versionCode 15
-        versionName "2.0.2"
+        minSdkVersion 23
+        targetSdkVersion 23
+        versionCode 1
+        versionName "2.0.3"
     }
+
     buildTypes {
+        debug {
+	      applicationIdSuffix ".debug"
+	      versionNameSuffix "-debug"
+	      debuggable true
+	}
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+	      applicationIdSuffix ".release"
+	      versionNameSuffix "-release"
+	      debuggable false
+        }
+    }
+
+    flavorDimensions "api", "abi"
+    productFlavors {
+        // ABI
+        armv7a {
+               dimension "abi"
+	       ndk {
+                    abiFilter "armeabi-v7a"
+               }
+        }
+        armv8a {
+              dimension "abi"
+              ndk {
+                     abiFilter "arm64-v8a"
+              }
+        }
+	// SDK
+        Sdk23 {
+               dimension "api"
+               minSdkVersion 23
+               versionCode 20000  + android.defaultConfig.versionCode
+               versionNameSuffix "-Sdk23"
+        }
+        Sdk27 {
+               dimension "api"
+               minSdkVersion 27
+               versionCode 20000  + android.defaultConfig.versionCode
+               versionNameSuffix "-Sdk27"
         }
     }
 
@@ -33,7 +80,7 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:22.0.0'
-    compile 'com.google.android.gms:play-services:6.5.87'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.google.android.gms:play-services:6.5.87'
+    implementation 'org.apache.httpcomponents:httpclient:4.2.6'
 }
