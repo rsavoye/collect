@@ -4,6 +4,7 @@ android {
     compileSdkVersion 23
     buildToolsVersion "27.0.3"
     useLibrary 'org.apache.http.legacy'
+    defaultTasks "assembleApi23Armv5"
 
     lintOptions {
        checkReleaseBuilds false
@@ -38,13 +39,19 @@ android {
     flavorDimensions "api", "abi"
     productFlavors {
         // ABI
-        armv7a {
+        armv5 {
+               dimension "abi"
+	       ndk {
+                    abiFilter "armeabi"
+               }
+        }
+        armv7 {
                dimension "abi"
 	       ndk {
                     abiFilter "armeabi-v7a"
                }
         }
-        armv8a {
+        armv8 {
               dimension "abi"
               ndk {
                      abiFilter "arm64-v8a"
