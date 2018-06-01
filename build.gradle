@@ -12,6 +12,8 @@ buildscript {
     }
 }
 
+defaultTasks "assembleApi23Armv5"
+
 allprojects {
     repositories {
         jcenter()
